@@ -1,0 +1,179 @@
+openapi: 3.0.0
+info:
+  title: Sistema Acadêmico API
+  version: 1.0.0
+
+components:
+  schemas:
+    Authorization:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Aluno:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+        authId:
+          type: string
+          format: uuid
+
+    Professor:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+        authId:
+          type: string
+          format: uuid
+
+    Curso:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    Turma:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        ano:
+          type: integer
+        cursoId:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    Matricula:
+      type: object
+      properties:
+        id:
+          type: integer
+        alunoId:
+          type: integer
+        turmaId:
+          type: integer
+        dataMatricula:
+          type: string
+          format: date-time
+
+    Disciplina:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+
+    TurmaDisciplina:
+      type: object
+      properties:
+        id:
+          type: integer
+        turmaId:
+          type: integer
+        disciplinaId:
+          type: integer
+        professorId:
+          type: integer
+
+    Trimestre:
+      type: object
+      properties:
+        id:
+          type: integer
+        ano:
+          type: integer
+        numero:
+          type: integer
+        inicio:
+          type: string
+          format: date-time
+        fim:
+          type: string
+          format: date-time
+
+    Teste:
+      type: object
+      properties:
+        id:
+          type: integer
+        tipo:
+          type: string
+        data:
+          type: string
+          format: date-time
+        peso:
+          type: number
+          format: float
+        turmaDisciplinaId:
+          type: integer
+        trimestreId:
+          type: integer
+
+    Pauta:
+      type: object
+      properties:
+        id:
+          type: integer
+        matriculaId:
+          type: integer
+        testeId:
+          type: integer
+        nota:
+          type: number
+          format: float
+        observacoes:
+          type: string
+    
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Turma não encontrada"
+        status:
+          type: integer
+          example: 404

@@ -1,0 +1,100 @@
+paths:
+  /testes:
+    get:
+      tags:
+        - Testes
+      summary: List all tests
+      responses:
+        200:
+          description: A list of tests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teste'
+
+    post:
+      tags:
+        - Testes
+      summary: Create a new test
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teste'
+      responses:
+        201:
+          description: Test created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teste'
+        400:
+          description: Bad request
+
+  /testes/{id}:
+    get:
+      tags:
+        - Testes
+      summary: Get a test by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Test found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teste'
+        404:
+          description: Test not found
+
+    put:
+      tags:
+        - Testes
+      summary: Update a test
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teste'
+      responses:
+        200:
+          description: Test updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teste'
+        400:
+          description: Bad request
+        404:
+          description: Test not found
+
+    delete:
+      tags:
+        - Testes
+      summary: Delete a test
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Test deleted
+        404:
+          description: Test not found

@@ -1,0 +1,100 @@
+paths:
+  /professores:
+    get:
+      tags:
+        - Professores
+      summary: List all teachers
+      responses:
+        200:
+          description: A list of teachers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Professor'
+
+    post:
+      tags:
+        - Professores
+      summary: Create a new teacher
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+      responses:
+        201:
+          description: Teacher created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'
+        400:
+          description: Bad request
+
+  /professores/{id}:
+    get:
+      tags:
+        - Professores
+      summary: Get a teacher by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Teacher found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'
+        404:
+          description: Teacher not found
+
+    put:
+      tags:
+        - Professores
+      summary: Update a teacher
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Professor'
+      responses:
+        200:
+          description: Teacher updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professor'
+        400:
+          description: Bad request
+        404:
+          description: Teacher not found
+
+    delete:
+      tags:
+        - Professores
+      summary: Delete a teacher
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Teacher deleted
+        404:
+          description: Teacher not found

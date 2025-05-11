@@ -1,0 +1,100 @@
+paths:
+  /disciplinas:
+    get:
+      tags:
+        - Disciplinas
+      summary: List all subjects
+      responses:
+        200:
+          description: A list of subjects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Disciplina'
+
+    post:
+      tags:
+        - Disciplinas
+      summary: Create a new subject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Disciplina'
+      responses:
+        201:
+          description: Subject created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disciplina'
+        400:
+          description: Bad request
+
+  /disciplinas/{id}:
+    get:
+      tags:
+        - Disciplinas
+      summary: Get a subject by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Subject found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disciplina'
+        404:
+          description: Subject not found
+
+    put:
+      tags:
+        - Disciplinas
+      summary: Update a subject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Disciplina'
+      responses:
+        200:
+          description: Subject updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Disciplina'
+        400:
+          description: Bad request
+        404:
+          description: Subject not found
+
+    delete:
+      tags:
+        - Disciplinas
+      summary: Delete a subject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Subject deleted
+        404:
+          description: Subject not found

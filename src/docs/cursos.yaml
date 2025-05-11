@@ -1,0 +1,100 @@
+paths:
+  /cursos:
+    get:
+      tags:
+        - Cursos
+      summary: List all courses
+      responses:
+        200:
+          description: A list of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Curso'
+
+    post:
+      tags:
+        - Cursos
+      summary: Create a new course
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curso'
+      responses:
+        201:
+          description: Course created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+        400:
+          description: Bad request
+
+  /cursos/{id}:
+    get:
+      tags:
+        - Cursos
+      summary: Get a course by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Course found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+        404:
+          description: Course not found
+
+    put:
+      tags:
+        - Cursos
+      summary: Update a course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Curso'
+      responses:
+        200:
+          description: Course updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Curso'
+        400:
+          description: Bad request
+        404:
+          description: Course not found
+
+    delete:
+      tags:
+        - Cursos
+      summary: Delete a course
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Course deleted
+        404:
+          description: Course not found

@@ -1,0 +1,114 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Authorization {
+  id        String      @id @default(uuid())
+  role      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  email     String   @unique
+  password  String
+  professor Professor?
+  aluno     Aluno?
+}
+
+model Curso {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  createdAt DateTime @default(now()) @map("created_at")
+  turmas    Turma[]
+}
+
+model Turma {
+  id               Int               @id @default(autoincrement())
+  cursoId          Int               @map("curso_id")
+  nome             String
+  ano              Int
+  createdAt        DateTime          @default(now()) @map("created_at")
+  curso            Curso             @relation(fields: [cursoId], references: [id])
+  matriculas       Matricula[]
+  turmaDisciplinas TurmaDisciplina[]
+}
+
+model Aluno {
+  id         Int         @id @default(autoincrement())
+  nome       String
+  email      String      @unique
+  createdAt  DateTime    @default(now()) @map("created_at")
+  matriculas Matricula[]
+  authId     String? @unique
+  authorization Authorization? @relation(fields: [authId], references: [id])
+}
+
+model Professor {
+  id               Int               @id @default(autoincrement())
+  nome             String
+  email            String            @unique
+  createdAt        DateTime          @default(now()) @map("created_at")
+  turmaDisciplinas TurmaDisciplina[]
+  authId           String? @unique
+  authorization    Authorization? @relation(fields: [authId], references: [id])
+}
+model Matricula {
+  id            Int      @id @default(autoincrement())
+  alunoId       Int      @map("aluno_id")
+  turmaId       Int      @map("turma_id")
+  dataMatricula DateTime @default(now()) @map("data_matricula")
+  aluno         Aluno    @relation(fields: [alunoId], references: [id])
+  turma         Turma    @relation(fields: [turmaId], references: [id])
+  pautas        Pauta[]
+}
+
+model Disciplina {
+  id               Int               @id @default(autoincrement())
+  nome             String
+  turmaDisciplinas TurmaDisciplina[]
+}
+
+model TurmaDisciplina {
+  id           Int        @id @default(autoincrement())
+  turmaId      Int        @map("turma_id")
+  disciplinaId Int        @map("disciplina_id")
+  professorId  Int        @map("professor_id")
+  turma        Turma      @relation(fields: [turmaId], references: [id])
+  disciplina   Disciplina @relation(fields: [disciplinaId], references: [id])
+  professor    Professor  @relation(fields: [professorId], references: [id])
+  testes       Teste[]
+}
+
+model Trimestre {
+  id     Int      @id @default(autoincrement())
+  ano    Int
+  numero Int
+  inicio DateTime
+  fim    DateTime
+  testes Teste[]
+}
+
+model Teste {
+  id                Int             @id @default(autoincrement())
+  turmaDisciplinaId Int             @map("turma_disciplina_id")
+  trimestreId       Int             @map("trimestre_id")
+  tipo              String          @unique
+  data              DateTime
+  peso              Float
+  turmaDisciplina   TurmaDisciplina @relation(fields: [turmaDisciplinaId], references: [id])
+  trimestre         Trimestre       @relation(fields: [trimestreId], references: [id])
+  pautas            Pauta[]
+}
+
+model Pauta {
+  id          Int       @id @default(autoincrement())
+  matriculaId Int       @map("matricula_id")
+  testeId     Int       @map("teste_id")
+  nota        Float
+  observacoes String?
+  matricula   Matricula @relation(fields: [matriculaId], references: [id])
+  teste       Teste     @relation(fields: [testeId], references: [id])
+}

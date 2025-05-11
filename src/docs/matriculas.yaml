@@ -1,0 +1,100 @@
+paths:
+  /matriculas:
+    get:
+      tags:
+        - Matrículas
+      summary: List all enrollments
+      responses:
+        200:
+          description: A list of enrollments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Matricula'
+
+    post:
+      tags:
+        - Matrículas
+      summary: Create a new enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Matricula'
+      responses:
+        201:
+          description: Enrollment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matricula'
+        400:
+          description: Bad request
+
+  /matriculas/{id}:
+    get:
+      tags:
+        - Matrículas
+      summary: Get an enrollment by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Enrollment found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matricula'
+        404:
+          description: Enrollment not found
+
+    put:
+      tags:
+        - Matrículas
+      summary: Update an enrollment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Matricula'
+      responses:
+        200:
+          description: Enrollment updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Matricula'
+        400:
+          description: Bad request
+        404:
+          description: Enrollment not found
+
+    delete:
+      tags:
+        - Matrículas
+      summary: Delete an enrollment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Enrollment deleted
+        404:
+          description: Enrollment not found

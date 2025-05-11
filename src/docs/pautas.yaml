@@ -1,0 +1,100 @@
+paths:
+  /pautas:
+    get:
+      tags:
+        - Pautas
+      summary: List all grade records
+      responses:
+        200:
+          description: A list of grade records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pauta'
+
+    post:
+      tags:
+        - Pautas
+      summary: Create a new grade record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pauta'
+      responses:
+        201:
+          description: Grade record created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pauta'
+        400:
+          description: Bad request
+
+  /pautas/{id}:
+    get:
+      tags:
+        - Pautas
+      summary: Get a grade record by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Grade record found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pauta'
+        404:
+          description: Grade record not found
+
+    put:
+      tags:
+        - Pautas
+      summary: Update a grade record
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pauta'
+      responses:
+        200:
+          description: Grade record updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pauta'
+        400:
+          description: Bad request
+        404:
+          description: Grade record not found
+
+    delete:
+      tags:
+        - Pautas
+      summary: Delete a grade record
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Grade record deleted
+        404:
+          description: Grade record not found

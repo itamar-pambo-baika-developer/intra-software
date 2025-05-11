@@ -1,0 +1,100 @@
+paths:
+  /turma-disciplinas:
+    get:
+      tags:
+        - TurmaDisciplinas
+      summary: List all class-subject associations
+      responses:
+        200:
+          description: A list of associations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TurmaDisciplina'
+
+    post:
+      tags:
+        - TurmaDisciplinas
+      summary: Create a new class-subject association
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurmaDisciplina'
+      responses:
+        201:
+          description: Association created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurmaDisciplina'
+        400:
+          description: Bad request
+
+  /turma-disciplinas/{id}:
+    get:
+      tags:
+        - TurmaDisciplinas
+      summary: Get an association by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Association found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurmaDisciplina'
+        404:
+          description: Association not found
+
+    put:
+      tags:
+        - TurmaDisciplinas
+      summary: Update an association
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TurmaDisciplina'
+      responses:
+        200:
+          description: Association updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TurmaDisciplina'
+        400:
+          description: Bad request
+        404:
+          description: Association not found
+
+    delete:
+      tags:
+        - TurmaDisciplinas
+      summary: Delete an association
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Association deleted
+        404:
+          description: Association not found

@@ -1,0 +1,100 @@
+paths:
+  /trimestres:
+    get:
+      tags:
+        - Trimestres
+      summary: List all terms
+      responses:
+        200:
+          description: A list of terms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trimestre'
+
+    post:
+      tags:
+        - Trimestres
+      summary: Create a new term
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trimestre'
+      responses:
+        201:
+          description: Term created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trimestre'
+        400:
+          description: Bad request
+
+  /trimestres/{id}:
+    get:
+      tags:
+        - Trimestres
+      summary: Get a term by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Term found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trimestre'
+        404:
+          description: Term not found
+
+    put:
+      tags:
+        - Trimestres
+      summary: Update a term
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trimestre'
+      responses:
+        200:
+          description: Term updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trimestre'
+        400:
+          description: Bad request
+        404:
+          description: Term not found
+
+    delete:
+      tags:
+        - Trimestres
+      summary: Delete a term
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Term deleted
+        404:
+          description: Term not found
