@@ -1,9 +1,33 @@
-import { Aluno } from "../entities";
+import axios from "axios";
+import { Aluno, AlunoCompleteOPerfil, BilheteAPIRetorno } from "../entities";
 import { prisma } from "../prisma/client";
 
 class AlunoService {
   async create(alunoData: Omit<Aluno, 'id' | 'created_at'>) {
-    return await prisma.aluno.create({ data: alunoData });
+    return await prisma.aluno.create({
+      data: {
+        email: alunoData.email,
+        processNumber: alunoData.numero_de_processo
+      }
+    });
+  }
+
+  async completeProfile(data: AlunoCompleteOPerfil) {
+    const BiAPIConsult = await axios.get<BilheteAPIRetorno>(`https://consulta.edgarsingui.ao/consultar/${data.biNumber}`);
+
+    if (BiAPIConsult.data.error) {
+      return BiAPIConsult.data;
+    }
+
+    await prisma.aluno.update({
+      where: {
+        email: data.email
+      },
+      data: {
+        nome: BiAPIConsult.data.name,
+        birthDate: BiAPIConsult.data.data_de_nascimento
+      }
+    })
   }
 
   async findAll() {

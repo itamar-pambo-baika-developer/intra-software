@@ -99,6 +99,25 @@ paths:
         404:
           description: Student not found
 
+  /alunos/complete-profile:
+    put:
+      tags:
+        - Alunos
+      summary: Complete student profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlunoCompleteProfile'
+      responses:
+        200:
+          description: Student updated
+        400:
+          description: Bad request
+        404:
+          description: Student not found
+
   /alunos/turma/{turmaId}:
     get:
       tags: [Alunos]

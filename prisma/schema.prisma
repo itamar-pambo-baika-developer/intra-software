@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Authorization {
-  id        String      @id @default(uuid())
+  id        String     @id @default(uuid())
   role      String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  email     String   @unique
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  email     String     @unique
   password  String
   professor Professor?
   aluno     Aluno?
@@ -37,12 +37,15 @@ model Turma {
 }
 
 model Aluno {
-  id         Int         @id @default(autoincrement())
-  nome       String
-  email      String      @unique
-  createdAt  DateTime    @default(now()) @map("created_at")
-  matriculas Matricula[]
-  authId     String? @unique
+  id            Int            @id @default(autoincrement())
+  nome          String?
+  processNumber Int
+  birthDate     DateTime?
+  biNumber      String?         @unique
+  email         String         @unique
+  createdAt     DateTime       @default(now()) @map("created_at")
+  matriculas    Matricula[]
+  authId        String?        @unique
   authorization Authorization? @relation(fields: [authId], references: [id])
 }
 
@@ -52,9 +55,10 @@ model Professor {
   email            String            @unique
   createdAt        DateTime          @default(now()) @map("created_at")
   turmaDisciplinas TurmaDisciplina[]
-  authId           String? @unique
-  authorization    Authorization? @relation(fields: [authId], references: [id])
+  authId           String?           @unique
+  authorization    Authorization?    @relation(fields: [authId], references: [id])
 }
+
 model Matricula {
   id            Int      @id @default(autoincrement())
   alunoId       Int      @map("aluno_id")

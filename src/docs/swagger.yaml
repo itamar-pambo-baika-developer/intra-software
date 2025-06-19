@@ -40,6 +40,16 @@ components:
           type: string
           format: uuid
 
+    AlunoCompleteProfile:
+      type: object
+      properties:
+        biNumber: 
+          type: string
+        email: 
+          type: string
+        numero_de_processo: 
+          type: integer
+
     Professor:
       type: object
       properties:
@@ -164,7 +174,7 @@ components:
           format: float
         observacoes:
           type: string
-    
+
     ErrorResponse:
       type: object
       properties:

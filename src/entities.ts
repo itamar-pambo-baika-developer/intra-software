@@ -14,10 +14,27 @@ export interface Turma {
 
 export interface Aluno {
     id?: number;
-    nome: string;
+    nome?: string;
     email: string;
-    numero_de_processo: string;
+    numero_de_processo: number;
     created_at?: Date;
+}
+
+export interface AlunoCompleteOPerfil {
+    biNumber: string
+    email: string
+    numero_de_processo: number
+}
+
+export interface BilheteAPIRetorno {
+    error: boolean
+    name: string
+    data_de_nascimento: string
+    pai: string
+    mae: string
+    morada: string
+    emitido_em: string
+    type: string
 }
 
 export interface Professor {

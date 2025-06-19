@@ -3,13 +3,13 @@ import { prisma } from "../prisma/client";
 
 class TurmaService {
   async create(turmaData: Omit<Turma, 'id'>) {
-    return await prisma.turma.create({ data: {
+    return await prisma.turma.create({
+      data: {
         ano: turmaData.ano,
         nome: turmaData.nome,
-        curso: {
-          connect: { id: turmaData.curso_id }
-        }
-    } });
+        cursoId: turmaData.curso_id
+      }
+    });
   }
 
   async findAll() {
@@ -21,7 +21,7 @@ class TurmaService {
   async findById(id: number) {
     return await prisma.turma.findUnique({
       where: { id },
-      include: { 
+      include: {
         curso: true,
         matriculas: {
           include: { aluno: true }
