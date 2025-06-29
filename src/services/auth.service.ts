@@ -101,8 +101,6 @@ export class AuthService {
           details: null,
         };
       }
-
-
     }
     if (role === 'teacher') {
       const teacher = await this.prisma.professor.findUnique({

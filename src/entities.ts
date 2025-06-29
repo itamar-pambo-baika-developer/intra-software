@@ -1,12 +1,12 @@
 export interface Curso {
     id?: number;
     nome: string;
-    created_at?: Date;
+    createdAt?: Date;
 }
 
 export interface Turma {
     id?: number;
-    curso_id: number;
+    cursoId: number;
     nome: string;
     ano: number;
     curso?: Curso;
@@ -16,32 +16,32 @@ export interface Aluno {
     id?: number;
     nome?: string;
     email: string;
-    numero_de_processo: number;
-    created_at?: Date;
+    processNumber: number;
+    createdAt?: Date;
 }
 
-export interface AlunoCompleteOPerfil {
-    biNumber: string
-    email: string
-    numero_de_processo: number
+export interface AlunoCompleteProfile {
+    biNumber: string;
+    email: string;
+    processNumber: number;
 }
 
 export interface BilheteAPIRetorno {
-    error: boolean
-    name: string
-    data_de_nascimento: string
-    pai: string
-    mae: string
-    morada: string
-    emitido_em: string
-    type: string
+    error: boolean;
+    name: string;
+    data_de_nascimento: string;
+    pai: string;
+    mae: string;
+    morada: string;
+    emitido_em: string;
+    type: string;
 }
 
 export interface Professor {
     id?: number;
     nome: string;
     email: string;
-    created_at?: Date;
+    createdAt?: Date;
 }
 
 export interface Disciplina {
@@ -51,9 +51,9 @@ export interface Disciplina {
 
 export interface Matricula {
     id?: number;
-    aluno_id: number;
-    turma_id: number;
-    data_matricula?: Date;
+    alunoId: number;
+    turmaId: number;
+    dataMatricula?: Date;
     aluno?: Aluno;
     turma?: Turma;
 }
@@ -103,12 +103,12 @@ export interface Pauta {
 }
 
 // Tipos para criação (sem campos opcionais)
-export type CreateCurso = Omit<Curso, 'id' | 'created_at'>;
+export type CreateCurso = Omit<Curso, 'id' | 'createdAt'>;
 export type CreateTurma = Omit<Turma, 'id'>;
-export type CreateAluno = Omit<Aluno, 'id' | 'created_at'>;
-export type CreateProfessor = Omit<Professor, 'id' | 'created_at'>;
+export type CreateAluno = Omit<Aluno, 'id' | 'createdAt'>;
+export type CreateProfessor = Omit<Professor, 'id' | 'createdAt'>;
 export type CreateDisciplina = Omit<Disciplina, 'id'>;
-export type CreateMatricula = Omit<Matricula, 'id' | 'data_matricula'>;
+export type CreateMatricula = Omit<Matricula, 'id' | 'dataMatricula'>;
 export type CreateTurmaDisciplina = Omit<TurmaDisciplina, 'id'>;
 export type CreateTrimestre = Omit<Trimestre, 'id'>;
 export type CreateTeste = Omit<Teste, 'id'>;

@@ -2,14 +2,14 @@ import { Matricula } from "../entities";
 import { prisma } from "../prisma/client";
 
 class MatriculaService {
-    async create(matriculaData: Omit<Matricula, 'id' | 'data_matricula'>) {
+    async create(matriculaData: Omit<Matricula, 'id' | 'dataMatricula'>) {
         return await prisma.matricula.create({
             data: {
                 aluno: {
-                    connect: { id: matriculaData.aluno_id }
+                    connect: { id: matriculaData.alunoId }
                 },
                 turma: {
-                    connect: { id: matriculaData.turma_id }
+                    connect: { id: matriculaData.turmaId }
                 },
             }
         });

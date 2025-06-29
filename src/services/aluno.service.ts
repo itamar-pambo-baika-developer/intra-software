@@ -1,18 +1,18 @@
 import axios from "axios";
-import { Aluno, AlunoCompleteOPerfil, BilheteAPIRetorno } from "../entities";
+import { Aluno, BilheteAPIRetorno } from "../entities";
 import { prisma } from "../prisma/client";
 
 class AlunoService {
-  async create(alunoData: Omit<Aluno, 'id' | 'created_at'>) {
+  async create(alunoData: { email: string; processNumber: number }) {
     return await prisma.aluno.create({
       data: {
         email: alunoData.email,
-        processNumber: alunoData.numero_de_processo
+        processNumber: alunoData.processNumber
       }
     });
   }
 
-  async completeProfile(data: AlunoCompleteOPerfil) {
+  async completeProfile(data: { biNumber: string; email: string }) {
     const BiAPIConsult = await axios.get<BilheteAPIRetorno>(`https://consulta.edgarsingui.ao/consultar/${data.biNumber}`);
 
     if (BiAPIConsult.data.error) {
@@ -38,7 +38,7 @@ class AlunoService {
     return await prisma.aluno.findUnique({ where: { id } });
   }
 
-  async update(id: number, alunoData: Partial<Aluno>) {
+  async update(id: number, alunoData: { nome?: string; email?: string; processNumber?: number }) {
     return await prisma.aluno.update({
       where: { id },
       data: alunoData

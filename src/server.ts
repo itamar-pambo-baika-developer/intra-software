@@ -6,7 +6,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-bootstrap(app).listen(PORT, () => {
+bootstrap(app).listen(PORT, async () => {
   console.log(`Servidor rodando na porta ${PORT}`);
   console.log(`Documentação Swagger disponível em http://localhost:${PORT}/api-docs`);
 });

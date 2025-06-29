@@ -7,7 +7,7 @@ class TurmaService {
       data: {
         ano: turmaData.ano,
         nome: turmaData.nome,
-        cursoId: turmaData.curso_id
+        cursoId: turmaData.cursoId
       }
     });
   }
@@ -49,9 +49,7 @@ class TurmaService {
       data: {
         ano: turmaData.ano,
         nome: turmaData.nome,
-        curso: {
-          connect: { id: turmaData.curso_id }
-        }
+        curso: turmaData.cursoId ? { connect: { id: turmaData.cursoId } } : undefined
       }
     });
   }

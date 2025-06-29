@@ -1,4 +1,14 @@
 -- CreateTable
+CREATE TABLE "Authorization" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "role" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" DATETIME NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "Curso" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "nome" TEXT NOT NULL,
@@ -18,9 +28,14 @@ CREATE TABLE "Turma" (
 -- CreateTable
 CREATE TABLE "Aluno" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "nome" TEXT NOT NULL,
+    "nome" TEXT,
+    "processNumber" INTEGER NOT NULL,
+    "birthDate" DATETIME,
+    "biNumber" TEXT,
     "email" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "authId" TEXT,
+    CONSTRAINT "Aluno_authId_fkey" FOREIGN KEY ("authId") REFERENCES "Authorization" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -28,7 +43,9 @@ CREATE TABLE "Professor" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "nome" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "authId" TEXT,
+    CONSTRAINT "Professor_authId_fkey" FOREIGN KEY ("authId") REFERENCES "Authorization" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -91,10 +108,22 @@ CREATE TABLE "Pauta" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Authorization_email_key" ON "Authorization"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Aluno_biNumber_key" ON "Aluno"("biNumber");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Aluno_email_key" ON "Aluno"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Aluno_authId_key" ON "Aluno"("authId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Professor_email_key" ON "Professor"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Professor_authId_key" ON "Professor"("authId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Teste_tipo_key" ON "Teste"("tipo");

@@ -17,22 +17,37 @@ paths:
     post:
       tags:
         - Alunos
-      summary: Create a new student
+      summary: Criar novo aluno
+      description: |
+        Cria um novo aluno no sistema. É obrigatório informar o e-mail e o processNumber.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Aluno'
+              type: object
+              required:
+                - email
+                - processNumber
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: aluno@escola.com
+                  description: E-mail do aluno.
+                processNumber:
+                  type: integer
+                  example: 12345
+                  description: Número de processo do aluno.
       responses:
         201:
-          description: Student created
+          description: Aluno criado com sucesso
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Aluno'
         400:
-          description: Bad request
+          description: Dados inválidos
 
   /alunos/{id}:
     get:

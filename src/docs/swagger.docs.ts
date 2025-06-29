@@ -12,7 +12,8 @@ const swaggerSpec = swaggerJSDoc({
       description: 'Documentação da API para o sistema escolar INTRA.',
     },
     servers: [
-      { url: `http://localhost:${process.env.PORT}`, description: 'Servidor local' },
+      { url: `http://localhost:${process.env.PORT || 3000}`, description: 'Servidor local' },
+      { url: `https://school.baikasaude.click`, description: 'Servidor de produção' },
     ],
     components: {
       securitySchemes: {
