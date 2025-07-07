@@ -4,6 +4,9 @@ import trimestreService from '../services/trimestre.service';
 class TrimestreController {
   async create(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const trimestre = await trimestreService.create(req.body);
       res.status(201).json(trimestre);
     } catch (error: any) {
@@ -13,6 +16,9 @@ class TrimestreController {
 
   async findAll(req: Request, res: Response) {
     try {
+      if (!req.user ) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const trimestres = await trimestreService.findAll();
       res.json(trimestres);
     } catch (error: any) {
@@ -22,6 +28,9 @@ class TrimestreController {
 
   async findById(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const trimestre = await trimestreService.findById(Number(req.params.id));
       if (trimestre) {
         res.json(trimestre);
@@ -35,6 +44,9 @@ class TrimestreController {
 
   async findByAno(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const trimestres = await trimestreService.findByAno(Number(req.params.ano));
       res.json(trimestres);
     } catch (error: any) {
@@ -44,6 +56,9 @@ class TrimestreController {
 
   async update(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const trimestre = await trimestreService.update(Number(req.params.id), req.body);
       res.json(trimestre);
     } catch (error: any) {
@@ -53,6 +68,9 @@ class TrimestreController {
 
   async delete(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       await trimestreService.delete(Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {

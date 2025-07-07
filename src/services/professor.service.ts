@@ -1,3 +1,4 @@
+import axios from "axios";
 import { BilheteAPIRetorno, Professor } from "../entities";
 import { prisma } from "../prisma/client";
 import jwt from 'jsonwebtoken';

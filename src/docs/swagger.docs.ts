@@ -14,6 +14,7 @@ const swaggerSpec = swaggerJSDoc({
     servers: [
       { url: `http://localhost:${process.env.PORT || 3000}`, description: 'Servidor local' },
       { url: `https://school.baikasaude.click`, description: 'Servidor de produção' },
+      { url: `https://bhbzdtk5-3000.uks1.devtunnels.ms`, description: 'Servidor de produção' },
     ],
     components: {
       securitySchemes: {

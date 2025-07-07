@@ -52,13 +52,13 @@ export class AuthService {
       };
     }
 
-    const token = jwt.sign({ id: student ? student.id:teacher?.id, email: user.email }, process.env.SECRET_KEY ?? '', {
+    const token = jwt.sign({ id: student ? student.id:teacher?.id, email: user.email, role: user.role }, process.env.SECRET_KEY ?? '', {
       expiresIn: '1d',
     });
 
     return {
       error: false,
-      data: { token },
+      data: { token,  user: student || teacher, role: user.role },
       message: 'Login successful',
       status: StatusCodes.OK,
       details: null,
@@ -69,6 +69,9 @@ export class AuthService {
     const existingUser = await this.prisma.authorization.findUnique({
       where: { email }
     });
+
+    console.log(existingUser);
+    
 
     if (existingUser) {
       return {
@@ -86,35 +89,6 @@ export class AuthService {
         status: StatusCodes.BAD_REQUEST,
         details: null,
       };
-    }
-
-    if (role === 'student') {
-      const student = await this.prisma.aluno.findUnique({
-        where: { email }
-      });
-
-      if (student) {
-        return {
-          error: true,
-          message: 'Email already in use',
-          status: StatusCodes.CONFLICT,
-          details: null,
-        };
-      }
-    }
-    if (role === 'teacher') {
-      const teacher = await this.prisma.professor.findUnique({
-        where: { email }
-      });
-
-      if (teacher) {
-        return {
-          error: true,
-          message: 'Email already in use',
-          status: StatusCodes.CONFLICT,
-          details: null,
-        };
-      }
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

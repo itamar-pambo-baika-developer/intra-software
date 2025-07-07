@@ -3,6 +3,9 @@ import cursoService from '../services/curso.service';
 
 class CursoController {
   async create(req: Request, res: Response) {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Acesso negado' });
+    }
     try {
       const curso = await cursoService.create(req.body);
       res.status(201).json(curso);
@@ -12,6 +15,9 @@ class CursoController {
   }
 
   async findAll(req: Request, res: Response) {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Acesso negado' });
+    }
     try {
       const cursos = await cursoService.findAll();
       res.json(cursos);
@@ -21,6 +27,10 @@ class CursoController {
   }
 
   async findById(req: Request, res: Response) {
+
+    if (!req.user) {
+      return res.status(401).json({ error: 'Acesso negado' });
+    }
     try {
       const curso = await cursoService.findById(Number(req.params.id));
       if (curso) {
@@ -34,6 +44,9 @@ class CursoController {
   }
 
   async update(req: Request, res: Response) {
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(401).json({ error: 'Acesso negado' });
+    }
     try {
       const curso = await cursoService.update(Number(req.params.id), req.body);
       res.json(curso);
@@ -44,6 +57,9 @@ class CursoController {
 
   async delete(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       await cursoService.delete(Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {

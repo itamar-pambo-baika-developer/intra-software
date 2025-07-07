@@ -4,6 +4,9 @@ import professorService from '../services/professor.service';
 class ProfessorController {
   async create(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const professor = await professorService.create(req.body);
       res.status(201).json(professor);
     } catch (error: any) {
@@ -13,6 +16,9 @@ class ProfessorController {
 
   async findAll(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const professores = await professorService.findAll();
       res.json(professores);
     } catch (error: any) {
@@ -22,6 +28,9 @@ class ProfessorController {
 
   async findById(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const professor = await professorService.findById(Number(req.params.id));
       if (professor) {
         res.json(professor);
@@ -35,6 +44,9 @@ class ProfessorController {
 
   async update(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const professor = await professorService.update(Number(req.params.id), req.body);
       res.json(professor);
     } catch (error: any) {
@@ -44,6 +56,9 @@ class ProfessorController {
 
   async delete(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       await professorService.delete(Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {

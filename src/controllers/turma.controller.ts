@@ -4,6 +4,9 @@ import turmaService from '../services/turma.service';
 class TurmaController {
   async create(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turma = await turmaService.create(req.body);
       res.status(201).json(turma);
     } catch (error: any) {
@@ -13,6 +16,9 @@ class TurmaController {
 
   async findAll(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmas = await turmaService.findAll();
       res.json(turmas);
     } catch (error: any) {
@@ -22,6 +28,9 @@ class TurmaController {
 
   async findById(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turma = await turmaService.findById(Number(req.params.id));
       if (turma) {
         res.json(turma);
@@ -35,6 +44,9 @@ class TurmaController {
 
   async findByCurso(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmas = await turmaService.findByCurso(Number(req.params.cursoId));
       res.json(turmas);
     } catch (error: any) {
@@ -44,6 +56,9 @@ class TurmaController {
 
   async update(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turma = await turmaService.update(Number(req.params.id), req.body);
       res.json(turma);
     } catch (error: any) {
@@ -53,6 +68,9 @@ class TurmaController {
 
   async delete(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       await turmaService.delete(Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {

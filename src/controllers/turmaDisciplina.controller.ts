@@ -4,6 +4,9 @@ import turmaDisciplinaService from '../services/turmaDisciplina.service';
 class TurmaDisciplinaController {
   async create(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmaDisciplina = await turmaDisciplinaService.create(req.body);
       res.status(201).json(turmaDisciplina);
     } catch (error: any) {
@@ -13,6 +16,9 @@ class TurmaDisciplinaController {
 
   async findAll(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmaDisciplinas = await turmaDisciplinaService.findAll();
       res.json(turmaDisciplinas);
     } catch (error: any) {
@@ -22,6 +28,9 @@ class TurmaDisciplinaController {
 
   async findById(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmaDisciplina = await turmaDisciplinaService.findById(Number(req.params.id));
       if (turmaDisciplina) {
         res.json(turmaDisciplina);
@@ -35,6 +44,9 @@ class TurmaDisciplinaController {
 
   async findByTurma(req: Request, res: Response) {
     try {
+      if (!req.user) {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmaDisciplinas = await turmaDisciplinaService.findByTurma(Number(req.params.turmaId));
       res.json(turmaDisciplinas);
     } catch (error: any) {
@@ -44,6 +56,9 @@ class TurmaDisciplinaController {
 
   async update(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       const turmaDisciplina = await turmaDisciplinaService.update(
         Number(req.params.id),
         req.body
@@ -56,6 +71,9 @@ class TurmaDisciplinaController {
 
   async delete(req: Request, res: Response) {
     try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(401).json({ error: 'Acesso negado' });
+      }
       await turmaDisciplinaService.delete(Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {

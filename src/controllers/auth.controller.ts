@@ -32,7 +32,8 @@ export class AuthController {
 
       return res.status(result.status).json({
         token: result.data?.token,
-        message: result.message
+        message: result.message,
+        user: result.data?.user,
       });
 
     } catch (error) {
@@ -50,6 +51,12 @@ export class AuthController {
   async register(req: Request, res: Response) {
     try {
       const { email, password, role } = req.body;
+
+      console.log("Registering user...");
+      console.log("Email:", email);
+      console.log("Password:", password);
+      console.log("Role:", role);
+      
 
       if (!email || !password || !role) {
         return res.status(400).json({
