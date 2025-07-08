@@ -8,19 +8,22 @@ export const MiddlewareAuthentication = async (req: Request, res: Response, next
     return
   }
 
+  console.log(req.headers.authorization);
+  
   const token = req.headers.authorization?.split(' ')[1];
   
   if (!token) {
-    res.status(401).json({ error: 'Acesso negado' });
+    res.status(401).json({ error: 'Acesso negado middleware' });
     return
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string, email: string, role: string };
+    const decoded = jwt.verify(token, process.env.SECRET_KEY!) as { id: string, email: string, role: string };
 
     req.user = { id: Number(decoded.id), email: decoded.email, role: decoded.role };
 
     next();
+    return
   } catch (err) {
     res.status(401).json({ error: 'Token inválido', err });
   }

@@ -1,24 +1,25 @@
 import { Router } from 'express';
 import trimestreController from '../controllers/trimestre.controller';
+import { MiddlewareAuthentication } from '../config/auth';
 
 const router = Router();
 
 // Cria um novo trimestre
-router.post('/', trimestreController.create);
+router.post('/', MiddlewareAuthentication, trimestreController.create);
 
 // Lista todos os trimestres
-router.get('/', trimestreController.findAll);
+router.get('/', MiddlewareAuthentication, trimestreController.findAll);
 
 // Obtém um trimestre específico por ID
-router.get('/:id', trimestreController.findById);
+router.get('/:id', MiddlewareAuthentication, trimestreController.findById);
 
 // Lista trimestres por ano
-router.get('/ano/:ano', trimestreController.findByAno);
+router.get('/ano/:ano', MiddlewareAuthentication, trimestreController.findByAno);
 
 // Atualiza um trimestre
-router.put('/:id', trimestreController.update);
+router.put('/:id', MiddlewareAuthentication, trimestreController.update);
 
 // Remove um trimestre
-router.delete('/:id', trimestreController.delete);
+router.delete('/:id', MiddlewareAuthentication, trimestreController.delete);
 
 export default router;

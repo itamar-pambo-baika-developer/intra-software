@@ -1,27 +1,28 @@
 import { Router } from 'express';
 import pautaController from '../controllers/pauta.controller';
+import { MiddlewareAuthentication } from '../config/auth';
 
 const router = Router();
 
 // Lança uma nova nota na pauta
-router.post('/', pautaController.create);
+router.post('/', MiddlewareAuthentication, pautaController.create);
 
 // Lista todas as notas
-router.get('/', pautaController.findAll);
+router.get('/', MiddlewareAuthentication, pautaController.findAll);
 
 // Obtém uma nota específica por ID
-router.get('/:id', pautaController.findById);
+router.get('/:id', MiddlewareAuthentication, pautaController.findById);
 
 // Lista notas por teste
-router.get('/teste/:testeId', pautaController.findByTeste);
+router.get('/teste/:testeId', MiddlewareAuthentication, pautaController.findByTeste);
 
 // Lista notas por matrícula (aluno)
-router.get('/matricula/:matriculaId', pautaController.findByMatricula);
+router.get('/matricula/:matriculaId', MiddlewareAuthentication, pautaController.findByMatricula);
 
 // Atualiza uma nota
-router.put('/:id', pautaController.update);
+router.put('/:id', MiddlewareAuthentication, pautaController.update);
 
 // Remove uma nota
-router.delete('/:id', pautaController.delete);
+router.delete('/:id', MiddlewareAuthentication, pautaController.delete);
 
 export default router;
