@@ -71,7 +71,6 @@ export class AuthService {
     });
 
     console.log(existingUser);
-    
 
     if (existingUser) {
       return {
