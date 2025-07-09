@@ -58,7 +58,7 @@ export class AuthService {
 
     return {
       error: false,
-      data: { token,  user: student || teacher, role: user.role },
+      data: { token,  user: {...(student || teacher), role: user.role} },
       message: 'Login successful',
       status: StatusCodes.OK,
       details: null,
