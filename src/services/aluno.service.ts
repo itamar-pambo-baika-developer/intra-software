@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Aluno, BilheteAPIRetorno } from "../entities";
 import { prisma } from "../prisma/client";
+import { StatusCodes } from "http-status-codes";
 
 class AlunoService {
   async create(alunoData: { email: string; processNumber: number }) {
@@ -108,8 +109,57 @@ class AlunoService {
     });
   }
 
-  async delete(id: number) {
-    return await prisma.aluno.delete({ where: { id } });
+ async delete(studentId: number) {
+    try {
+      await prisma.$transaction(async (prisma) => {
+        // Primeiro, deletar todas as pautas relacionadas às matrículas do aluno
+        await prisma.pauta.deleteMany({
+          where: {
+            matricula: {
+              alunoId: studentId
+            }
+          }
+        });
+
+        // Depois, deletar todas as matrículas do aluno
+        await prisma.matricula.deleteMany({
+          where: {
+            alunoId: studentId
+          }
+        });
+
+        // Buscar o aluno para obter o authId
+        const student = await prisma.aluno.findUnique({
+          where: { id: studentId }
+        });
+
+        // Deletar o aluno
+        await prisma.aluno.delete({
+          where: { id: studentId }
+        });
+
+        // Se o aluno tinha authId, deletar também a autorização
+        if (student?.authId) {
+          await prisma.authorization.delete({
+            where: { id: student.authId }
+          });
+        }
+      });
+
+      return {
+        error: false,
+        message: 'Student deleted successfully',
+        status: StatusCodes.OK,
+        details: null,
+      };
+    } catch (error) {
+      return {
+        error: true,
+        message: 'Failed to delete student',
+        status: StatusCodes.INTERNAL_SERVER_ERROR,
+        details: error instanceof Error ? error.message : error,
+      };
+    }
   }
 
   async findAlunosByTurma(turmaId: number) {
