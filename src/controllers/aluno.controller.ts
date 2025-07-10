@@ -31,10 +31,6 @@ class AlunoController {
   async findAll(req: Request, res: Response) {
     try {
 
-      if (req.user && req.user.role === 'student') {
-        return res.status(403).json({ error: 'Acesso negado' });
-      }
-
       if (!req.user) {
         return res.status(401).json({ error: 'Acesso negado' });
       }

@@ -68,7 +68,7 @@ class PautaController {
 
   async update(req: Request, res: Response) {
     try {
-      if (!req.user || req.user.role !== 'admin') {
+      if (!req.user ) {
         return res.status(401).json({ error: 'Acesso negado' });
       }
       const pauta = await pautaService.update(Number(req.params.id), req.body);
@@ -80,7 +80,7 @@ class PautaController {
 
   async delete(req: Request, res: Response) {
     try {
-      if (!req.user || req.user.role !== 'admin') {
+      if (!req.user) {
         return res.status(401).json({ error: 'Acesso negado' });
       }
       await pautaService.delete(Number(req.params.id));

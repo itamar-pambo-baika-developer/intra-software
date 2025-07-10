@@ -16,7 +16,7 @@ class MatriculaController {
 
   async findAll(req: Request, res: Response) {
     try {
-      if (!req.user || req.user.role !== 'admin') {
+      if (!req.user) {
         return res.status(401).json({ error: 'Acesso negado' });
       }
       const matriculas = await matriculaService.findAll();
