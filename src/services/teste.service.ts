@@ -3,17 +3,16 @@ import { prisma } from "../prisma/client";
 
 class TesteService {
   async create(testeData: Omit<Teste, 'id'>) {
-    return await prisma.teste.create({ data: {
-        turmaDisciplina: {
-          connect: { id: testeData.turma_disciplina?.disciplina_id }
-        },
-        trimestre: {
-          connect: { id: testeData.trimestre?.id }
-        },
+    return await prisma.teste.create({
+      data: {
+        turmaDisciplinaId: testeData.turma_disciplina_id,
+        trimestreId: testeData.trimestre_id,
         tipo: testeData.tipo,
         data: testeData.data,
-        peso: testeData.peso
-    } });
+        peso: testeData.peso,
+        alunoId: testeData.alunoId
+      }
+    });
   }
 
   async findAll() {

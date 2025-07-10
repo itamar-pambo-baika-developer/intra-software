@@ -45,6 +45,7 @@ model Aluno {
   email         String         @unique
   createdAt     DateTime       @default(now()) @map("created_at")
   matriculas    Matricula[]
+  testes        Teste[]
   authId        String?        @unique
   authorization Authorization? @relation(fields: [authId], references: [id])
 }
@@ -105,6 +106,8 @@ model Teste {
   turmaDisciplina   TurmaDisciplina @relation(fields: [turmaDisciplinaId], references: [id])
   trimestre         Trimestre       @relation(fields: [trimestreId], references: [id])
   pautas            Pauta[]
+  alunoId           Int             
+  aluno             Aluno           @relation(fields: [alunoId], references: [id])
 }
 
 model Pauta {

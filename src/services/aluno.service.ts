@@ -99,7 +99,54 @@ class AlunoService {
   }
 
   async findById(id: number) {
-    return await prisma.aluno.findUnique({ where: { id } });
+    const tests = await prisma.teste.findMany({
+      where: {
+        alunoId: id
+      }
+    });
+
+    const colegas = await prisma.aluno.count({
+      where: {
+       matriculas: {
+        some: {
+          turma: {
+            matriculas: {
+              some: {
+                alunoId: id
+              }
+            }
+          }
+        }
+       }
+      }
+    }) - 1;
+
+    const result = await prisma.aluno.findUnique({
+      where: { id },
+      include: {
+        matriculas: {
+          include: {
+            turma: {
+              include: {
+                curso: true,
+                turmaDisciplinas: {
+                  include: {
+                    disciplina: true,
+                    professor: true
+                  }
+                }
+              }
+            },
+          }
+        },
+      }
+    });
+
+    return {
+      ...result,
+      tests,
+      colegas
+    }
   }
 
   async update(id: number, alunoData: { nome?: string; email?: string; processNumber?: number }) {
@@ -109,7 +156,7 @@ class AlunoService {
     });
   }
 
- async delete(studentId: number) {
+  async delete(studentId: number) {
     try {
       await prisma.$transaction(async (prisma) => {
         // Primeiro, deletar todas as pautas relacionadas às matrículas do aluno

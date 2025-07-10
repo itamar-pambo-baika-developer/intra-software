@@ -155,9 +155,9 @@ components:
         peso:
           type: number
           format: float
-        turmaDisciplinaId:
+        turma_disciplina_id:
           type: integer
-        trimestreId:
+        trimestre_id:
           type: integer
 
     Pauta:

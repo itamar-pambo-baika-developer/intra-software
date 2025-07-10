@@ -90,6 +90,8 @@ export interface Teste {
     peso: number;
     turma_disciplina?: TurmaDisciplina;
     trimestre?: Trimestre;
+    alunoId: number;
+    aluno?: Aluno;
 }
 
 export interface Pauta {
